@@ -113,8 +113,8 @@ private List<Treatment> getTreatmentsForPhysio(Physiotherapist physio) {
 //             System.out.println("----------------------------");
 //         }}
 
-            System.out.println("\u001B[1m\u001B[36m---------------- Welcome to Boost Physio Clinic Booking System ----------------\u001B[0m");
-            System.out.println("\u001B[32mBoost Physio Clinic Booking System\u001B[0m");
+            System.out.println("\u001B[1;36m\n ═════════════ Welcome to Boost Physio Clinic Booking System ═════════════ \u001B[0m");    
+            System.out.println("\u001B[32m\nBoost Physio Clinic Booking System\n\u001B[0m");
             System.out.println("1. Add/Remove Patient"); 
             System.out.println("2. Book Treatment Appointment");
             System.out.println("3. Change/Cancel Booking");
@@ -122,38 +122,42 @@ private List<Treatment> getTreatmentsForPhysio(Physiotherapist physio) {
             System.out.println("5. Print Report");
             System.out.println("6. Exit");
             System.out.print("Select an option: ");
-            
-        if (scanner.hasNextInt()) {  // Check if input is an integer
 
-            int choice = scanner.nextInt();
-            scanner.nextLine();
-            
-            switch (choice) {
-                case 1:
-                    managePatients(scanner); //manage patients (add/remove patients)
-                    break;
-                case 2:
-                    bookAppointment(scanner); //bookappointment for the patients
-                    break;
-                case 3:
-                    changeOrCancelBooking(scanner);
-                    break;
-                case 4:
-                    attendAppointment(scanner);
-                    break;
-                case 5:
-                    printReport();
-                    break;
-                case 6:
-                    running = false;
-                    break;
-                default:
-                    System.out.println("Invalid option. Please try again.");
-            }
-        } else {
-            System.out.println("Error: Please enter a numbers (1-6).");
-            scanner.nextLine(); // Clear invalid input
+        String input = scanner.nextLine().trim(); // Read entire line and trim whitespace
+ 
+         if (input.isEmpty()) {
+            System.out.println("\u001B[31mNo input detected. Please try again.\u001B[0m");
+        continue; // Skip rest of loop and show menu again
         }
+
+    try {
+        int choice = Integer.parseInt(input); // Try converting to integer
+
+        switch (choice) {
+            case 1:
+                managePatients(scanner);
+                break;
+            case 2:
+                bookAppointment(scanner);
+                break;
+            case 3:
+                changeOrCancelBooking(scanner);
+                break;
+            case 4:
+                attendAppointment(scanner);
+                break;
+            case 5:
+                printReport();
+                break;
+            case 6:
+                running = false;
+                break;
+            default:
+               System.out.println("\u001B[33mInvalid input. Please enter a number (1-6).\u001B[0m");
+        }
+    } catch (NumberFormatException e) {
+        System.out.println("Error: Please enter a number (1-6).");
+    }
       }
         System.out.println("Thank you for using the Boost Physio Clinic Booking System.");
         scanner.close();
@@ -161,32 +165,38 @@ private List<Treatment> getTreatmentsForPhysio(Physiotherapist physio) {
 
     //Manage Patient [ Options : Add, Remove, Back]
     private void managePatients(Scanner scanner) {
-        System.out.println("\nPatient Management");
+        System.out.println("\u001B[32m\n══════ Patient Management ══════\n\u001B[0m");
         System.out.println("1. Add Patient");
         System.out.println("2. Remove Patient");
         System.out.println("3. Back to Main Menu");
-        System.out.print("Select an option: ");
-        
-        if (scanner.hasNextInt()) {  // Check if input is an integer
-        int choice = scanner.nextInt();
-        scanner.nextLine(); // consume newline
-        
+        System.out.print("\nSelect an option: ");
+             
+     String input = scanner.nextLine().trim();  // Read entire line
+
+    // Handle empty input
+    if (input.isEmpty()) {
+     System.out.println("\u001B[33mNo selection made. Returning to main menu...\u001B[0m");
+     return;
+    }
+
+    try {
+        int choice = Integer.parseInt(input);
+    
         switch (choice) {
-            case 1:
-                addPatient(scanner);
-                break;
-            case 2:
-                removePatient(scanner); 
-                break;
-            case 3:
-                return;
-            default:
-                System.out.println("Invalid option.");
+         case 1:
+            addPatient(scanner);
+            break;
+         case 2:
+            removePatient(scanner);
+            break;
+        case 3:
+            return;
+        default:
+            System.out.println("\u001B[33mInvalid option. Please enter 1, 2, or 3.\u001B[0m");
         }
-        } else {
-        System.out.println("Error: Please enter a number (1, 2, or 3).");
-        scanner.nextLine(); // Clear invalid input
-        } 
+    } catch (NumberFormatException e) {
+        System.out.println("\u001B[31mError: Please enter a number (1-3).\u001B[0m");
+}   
     }
 
     //get inputs from patients to add the patients
@@ -196,23 +206,39 @@ private List<Treatment> getTreatmentsForPhysio(Physiotherapist physio) {
         
         System.out.print("Enter full name: ");
         String name = scanner.nextLine();
-        
+        if (name.trim().isEmpty()) {
+         System.out.println("\u001B[33mCancelled. Returning to main menu...\u001B[0m");
+         return;
+        }
+
         System.out.print("Enter address: ");
         String address = scanner.nextLine();
-        
+        if (address.trim().isEmpty()) {
+         System.out.println("\u001B[33mCancelled. Returning to main menu...\u001B[0m");
+         return;
+        } 
+               
         System.out.print("Enter telephone number: ");
         String phone = scanner.nextLine();
-        
+        if (phone.trim().isEmpty()) {
+         System.out.println("\u001B[33mCancelled. Returning to main menu...\u001B[0m");
+         return;
+       }
+                
         Patient patient = new Patient(id, name, address, phone);
         addPatient(patient);
-        System.out.println("Patient added successfully.");
-    }
+        System.out.println("\u001B[32mPatient added successfully.\u001B[0m");    
+        }
 
     //get patient name from the patients to remove patient
     private void removePatient(Scanner scanner) {
         System.out.println("\nRemove Patient");
         System.out.print("Enter patient name to remove: ");
         String name = scanner.nextLine();
+        if(name.trim().isEmpty()){
+            System.out.println("\u001B[33mOperation cancelled. Returning to main menu...\u001B[0m");
+            return;
+        }
                  
         Patient patient = getPatientByName(name);
         if (patient == null) {
@@ -222,13 +248,13 @@ private List<Treatment> getTreatmentsForPhysio(Physiotherapist physio) {
         
         // TODO: Cant remove patient with active appointments
         // Check if patient has any appointments
-        // boolean hasAppointments = appointments.stream()
-        //         .anyMatch(a -> a.getPatient().equals(patient) && !a.getStatus().equals("cancelled"));
+        boolean hasAppointments = appointments.stream()
+                .anyMatch(a -> a.getPatient().equals(patient) && !a.getStatus().equals("cancelled"));
         
-        // if (hasAppointments) {
-        //     System.out.println("Cannot remove patient with active appointments.");
-        //     return;
-        // }
+        if (hasAppointments) {
+            System.out.println("Cannot remove patient with active appointments.");
+            return;
+        }
         
         patients.remove(patient);
         System.out.println("Patient removed successfully.");
@@ -239,12 +265,15 @@ private List<Treatment> getTreatmentsForPhysio(Physiotherapist physio) {
         patients.add(patient);
     }
 
-    //book appointmentsfor the patients
+  //book appointmentsfor the patients
     private void bookAppointment(Scanner scanner) {
         System.out.println("\nBook Treatment Appointment");
         System.out.print("Enter patient Name: ");
-        String patientName = scanner.nextLine();
-        
+        String patientName = scanner.nextLine().trim();
+        if (patientName.isEmpty()) {
+            System.out.println("\u001B[33mOperation cancelled. Returning to main menu...\u001B[0m");
+            return;
+        }        
         Patient patient = getPatientByName(patientName);
         if (patient == null) {
             System.out.println("Patient not found.");
@@ -264,10 +293,14 @@ private List<Treatment> getTreatmentsForPhysio(Physiotherapist physio) {
         if (searchOption == 1) {
             System.out.print("Enter area of expertise: ");
             String expertise = scanner.nextLine();
+            if(expertise.trim().isEmpty()) {
+                System.out.println("\u001B[33mOperation cancelled. Returning to main menu...\u001B[0m");
+                return;
+            }
     
-    // Store the lowercase trimmed expertise for reuse
-    final String searchTerm = expertise.toLowerCase().trim();
-availableSlots = physiotherapists.stream()
+        // Store the lowercase trimmed expertise for reuse
+        final String searchTerm = expertise.toLowerCase().trim();
+            availableSlots = physiotherapists.stream()
                     .filter(p -> p.getExpertise().contains(expertise))
                     .flatMap(p -> p.getAvailableSlots().stream())
                     .filter(slot -> !isSlotBooked(slot))
@@ -276,6 +309,10 @@ availableSlots = physiotherapists.stream()
         } else if (searchOption == 2) {
             System.out.print("Enter physiotherapist name: ");
             String name = scanner.nextLine();
+            if(name.trim().isEmpty()){
+              System.out.println("\u001B[33mOperation cancelled. Returning to main menu...\u001B[0m");
+                return;  
+            }
             
             availableSlots = physiotherapists.stream()
                     .filter(p -> p.getName().equalsIgnoreCase(name))
@@ -336,6 +373,10 @@ availableSlots = physiotherapists.stream()
         System.out.println("\nChange/Cancel Booking");
         System.out.print("Enter booking ID: ");
         String bookingId = scanner.nextLine();
+        if(bookingId.trim().isEmpty()){
+            System.out.println("\u001B[33mOperation cancelled. Returning to main menu...\u001B[0m");
+                return;
+        }
         
         Optional<Appointment> appointmentOpt = appointments.stream()
                .filter(a -> a.getBookingId().equals(String.valueOf(bookingId)))
@@ -375,6 +416,10 @@ availableSlots = physiotherapists.stream()
         System.out.println("\nAttend Appointment");
         System.out.print("Enter booking ID: ");
         String bookingId = scanner.nextLine();
+        if(bookingId.trim().isEmpty()){
+            System.out.println("\u001B[33mOperation cancelled. Returning to main menu...\u001B[0m");
+            return;
+        }
         
         Optional<Appointment> appointmentOpt = appointments.stream()
                .filter(a -> a.getBookingId().equals(String.valueOf(bookingId)))
@@ -402,8 +447,7 @@ availableSlots = physiotherapists.stream()
     }
 
     private void printReport() {
-    System.out.println("\nBoost Physio Clinic - Treatment Report (4 Weeks)");
-    
+System.out.println("\u001B[1;36m\n ════════════ Boost Physio Clinic - Treatment Report (4 Weeks) ════════════ \u001B[0m");    
     // Print all appointments grouped by physiotherapist
     physiotherapists.forEach(physio -> {
         System.out.println("\nPhysiotherapist: " + physio.getName());
@@ -419,7 +463,7 @@ availableSlots = physiotherapists.stream()
         } else {
             // Printing Table Header
             System.out.printf("%-15s %-35s %-25s %-30s %-25s\n", "Booking ID", "Treatment", "Patient", "Date/Time", "Status");
-            System.out.println("---------------------------------------------------------------");
+            System.out.println("------------------------------------------------------------------------------------");
             
             // Printing table rows
             physioAppointments.forEach(a -> {
