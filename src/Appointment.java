@@ -1,6 +1,10 @@
 
 import java.util.Objects;
 
+/**
+ * Represents a booked appointment between a patient and physiotherapist Tracks
+ * appointment status through its lifecycle (booked → attended/cancelled)
+ */
 public class Appointment {
 
     private String bookingId;
@@ -44,6 +48,19 @@ public class Appointment {
 
     public void setSlot(AppointmentSlot slot) {
         this.slot = slot;
+    }
+
+    // STATUS CHECKERS ================================================
+    public boolean isBooked() {
+        return "booked".equalsIgnoreCase(status);
+    }
+
+    public boolean isCancelled() {
+        return "cancelled".equalsIgnoreCase(status);
+    }
+
+    public boolean isAttended() {
+        return "attended".equalsIgnoreCase(status);
     }
 
     @Override

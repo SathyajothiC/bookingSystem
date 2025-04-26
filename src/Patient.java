@@ -1,6 +1,7 @@
 
 import java.util.Objects;
 
+// Represents a patient in the clinic system
 public class Patient {
 
     private String id;
@@ -8,6 +9,7 @@ public class Patient {
     private String address;
     private String phone;
 
+    // Constructor to create new Patient
     public Patient(String id, String name, String address, String phone) {
         this.id = id;
         this.name = name;
@@ -16,22 +18,27 @@ public class Patient {
     }
 
     // Getters
+    // Returns patient's ID
     public String getId() {
         return id;
     }
 
+    // Returns patient's name
     public String getName() {
         return name;
     }
 
+    // Returns patient's address
     public String getAddress() {
         return address;
     }
 
+    // Returns patient's phone number
     public String getPhone() {
         return phone;
     }
 
+    // Sets new ID for patient
     public void setId(String id) {
         this.id = id;
     }

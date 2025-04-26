@@ -1,6 +1,7 @@
 
 import java.util.Objects;
 
+// Represents a treatment/service offered by the clinic
 public class Treatment {
 
     private String name;
@@ -9,6 +10,7 @@ public class Treatment {
         this.name = name;
     }
 
+    // Returns the name of this treatment
     public String getName() {
         return name;
     }

@@ -1,15 +1,17 @@
 
 import java.util.*;
 
+// Represents a physiotherapist working
 public class Physiotherapist {
 
     private String id;
     private String name;
     private String address;
     private String phone;
-    private Set<String> expertise;
-    private List<AppointmentSlot> availableSlots;
+    private Set<String> expertise;          // Areas of specialization
+    private List<AppointmentSlot> availableSlots;  // Available time slots
 
+    // Constructor to create new physiotherapist
     public Physiotherapist(String id, String name, String address, String phone) {
         this.id = id;
         this.name = name;
@@ -19,12 +21,19 @@ public class Physiotherapist {
         this.availableSlots = new ArrayList<>();
     }
 
+    // Adds a new area of expertise
     public void addExpertise(String area) {
         expertise.add(area);
     }
 
+    // Adds an available time slot
     public void addAvailableSlot(AppointmentSlot slot) {
         availableSlots.add(slot);
+    }
+
+//Removes available time slot in predefined bookings
+    public boolean removeAvailableSlot(AppointmentSlot slot) {
+        return availableSlots.remove(slot);
     }
 
     // Getters
